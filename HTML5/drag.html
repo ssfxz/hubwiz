@@ -1,7 +1,15 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<script >
+<style type="text/css">
+#div1 {
+    width: 488px;
+    height: 70px;
+    padding: 10px;
+    border: 1px solid #aaaaaa;
+}
+</style>
+<script>
 function allowDrop(ev)
 {
     ev.preventDefault();
@@ -22,6 +30,6 @@ function drop(ev)
 <p>请把 logo 的图片拖放到矩形中：</p>
 <div id="div1" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
 <br />
-<img id="drag1" src="//course/54eeb95cf863871d446b24a0/img/webLogo.png" draggable="true" ondragstart="drag(event)" />
+<img id="drag1" src="./webLogo.png" draggable="true" ondragstart="drag(event)" />
 </body>
 </html>
