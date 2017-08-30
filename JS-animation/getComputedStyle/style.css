@@ -1,0 +1,13 @@
+
+*{
+    margin: 0;
+    padding: 0;
+}
+#container{
+    height: 200px;
+    width: 200px;
+    margin:auto;
+    border:1px red solid;
+    background-color: #6effcd;
+}
+

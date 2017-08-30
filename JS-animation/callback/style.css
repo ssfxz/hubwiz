@@ -1,0 +1,9 @@
+
+#container{
+	border: 1px solid blue;
+	width: 200px;
+	height: 200px;
+	background-color: red;
+	opacity: 0.5;
+}
+

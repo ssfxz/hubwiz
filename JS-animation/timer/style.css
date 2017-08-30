@@ -1,0 +1,14 @@
+
+*{
+	padding: 0px;
+	margin: 0px;
+}
+#container ul li
+{
+	width: 200px;
+	height: 100px;
+	margin-top:50px;
+	background-color: yellow;
+	list-style: none; 
+}
+
