@@ -1,0 +1,19 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+#container{
+    height: 200px;
+    width: 200px;
+    position: relative;
+    left: -200px;
+    background-color: #6effcd;
+}
+#btn{
+    height: 60px;
+    width: 30px;
+    position: absolute;
+    left: 200px;
+    top: 75px;
+    background-color: #73eeff;
+}

@@ -1,0 +1,8 @@
+#container{
+    width: 200px;
+    height: 200px;
+    background-color: red;
+    filter: alpha(opacity:50);
+    opacity: 0.5;
+    margin: auto;
+}
