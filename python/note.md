@@ -714,9 +714,348 @@ print "Outside the function : ", total
 ```
 
 # 模块
+## import语句
+简单地说，模块就是一个保存了Python代码的文件。模块能定义函数，类和变量。模块里也能包含可执行的代码。
+
+一个叫做aname的模块里的Python代码一般都能在一个叫aname.py的文件中找到。下例是个简单的模块support.py。
+
+```
+def print_func( par ):
+   print "Hello : ", par
+   return
+```
+
+想使用Python源文件，只需在另一个源文件里执行import语句，语法如下：
+
+```
+import module1[, module2[,... moduleN]
+```
+
+如下例子：
+
+```
+# 导入模块
+import support
+# 现在可以调用模块里包含的函数了
+support.print_func("Zara")
+```
+
+## from…import
+Python的from语句让你从模块中导入一个指定的部分到当前命名空间中。语法如下：
+
+```
+from modname import name1[, name2[, ... nameN]]
+```
+
+例如，要导入模块fib的fibonacci函数，使用如下语句：
+
+```
+from fib import fibonacci
+```
+
+## from…import*
+把一个模块的所有内容全都导入到当前的命名空间也是可行的，只需使用如下声明：
+
+```
+from modname import *
+```
+
+这提供了一个简单的方法来导入一个模块中的所有项目。然而这种声明不该被过多地使用。
+
+## reload函数
+当一个模块被导入到一个脚本，模块顶层部分的代码只会被执行一次。因此，如果你想重新执行模块里顶层部分的代码，可以用reload()函数。该函数会重新导入之前导入过的模块。语法如下：
+
+```
+reload(module_name)
+```
+
+在这里，module_name要直接放模块的名字，而不是一个字符串形式。比如想重载hello模块，如下：
+
+```
+reload(hello)
+```
 
 # 文件I/O
+## open函数
+Python内置的open()函数打开一个文件，创建一个file对象，相关的辅助方法才可以调用它进行读写。语法为：
+
+```
+file object = open(file_name [, access_mode][, buffering])
+```
+
+各个参数的细节如下：
+
+* file_name：file_name变量是一个包含了你要访问的文件名称的字符串值。
+
+* access_mode：access_mode决定了打开文件的模式：只读，写入，追加等。所有可取值见如下的完全列表。这个参数是非强制的，默认文件访问模式为只读(r)。
+
+* buffering:如果buffering的值被设为0，就不会有寄存。如果buffering的值取1，访问文件时会寄存行。如果将buffering的值设为大于1的整数，表明了这就是的寄存区的缓冲大小。如果取负值，寄存区的缓冲大小则为系统默认。
+
+不同模式打开文件的完全列表：
+
+模式 | 描述
+---- | ----
+r | 以只读方式打开文件。文件的指针将会放在文件的开头。这是默认模式。
+rb | 以二进制格式打开一个文件用于只读。文件指针将会放在文件的开头。这是默认模式。
+r+ | 打开一个文件用于读写。文件指针将会放在文件的开头。
+rb+ | 以二进制格式打开一个文件用于读写。文件指针将会放在文件的开头。
+w | 打开一个文件只用于写入。如果该文件已存在则将其覆盖。如果该文件不存在，创建新文件。
+wb | 以二进制格式打开一个文件只用于写入。如果该文件已存在则将其覆盖。如果该文件不存在，创建新文件。
+w+ | 打开一个文件用于读写。如果该文件已存在则将其覆盖。如果该文件不存在，创建新文件。
+wb+ | 以二进制格式打开一个文件用于读写。如果该文件已存在则将其覆盖。如果该文件不存在，创建新文件。
+a | 打开一个文件用于追加。如果该文件已存在，文件指针将会放在文件的结尾。也就是说，新的内容将会被写入到已有内容之后。如果该文件不存在，创建新文件进行写入。
+ab | 以二进制格式打开一个文件用于追加。如果该文件已存在，文件指针将会放在文件的结尾。也就是说，新的内容将会被写入到已有内容之后。如果该文件不存在，创建新文件进行写入。
+a+ | 打开一个文件用于读写。如果该文件已存在，文件指针将会放在文件的结尾。文件打开时会是追加模式。如果该文件不存在，创建新文件用于读写。
+ab+ | 以二进制格式打开一个文件用于追加。如果该文件已存在，文件指针将会放在文件的结尾。如果该文件不存在，创建新文件用于读写。
+
+## close函数
+File对象的close（）方法刷新缓冲区里任何还没写入的信息，并关闭该文件，这之后便不能再进行写入。当一个文件对象的引用被重新指定给另一个文件时，Python会关闭之前的文件。语法为：
+
+```
+fileObject.close();
+```
+```
+# 打开一个文件
+fo = open("foo.txt", "wb")
+print "Name of the file: ", fo.name
+ 
+# 关闭打开的文件
+fo.close()
+```
+
+## File对象的属性
+一个文件被打开后，你有一个file对象，你可以得到有关该文件的各种信息。以下是和file对象相关的所有属性的列表:
+
+属性 | 描述
+---- | ----
+file.closed | 返回true如果文件已被关闭，否则返回false。
+file.mode | 返回被打开文件的访问模式。
+file.name | 返回文件的名称。
+file.softspace | 如果用print输出后，必须跟一个空格符，则返回false。否则返回true。
+
+```
+# 打开一个文件
+fo = open("foo.txt", "wb")
+print "Name of the file: ", fo.name
+print "Closed or not : ", fo.closed
+print "Opening mode : ", fo.mode
+print "Softspace flag : ", fo.softspace
+```
+
+## read函数
+read（）方法从一个打开的文件中读取一个字符串。语法：
+
+```
+fileObject.read([count]);
+```
+
+在这里，被传递的参数是要从已打开文件中读取的字节计数。该方法从文件的开头开始读入，如果没有传入count，它会尝试尽可能多地读取更多的内容，很可能是直到文件的末尾。
+
+```
+# 打开一个文件
+fo = open("/tmp/foo.txt", "r+")
+str = fo.read(10);
+print "Read String is : ", str
+# 关闭打开的文件
+fo.close()
+```
+
+## write函数
+Write()方法可将任何字符串写入一个打开的文件。Write()方法不在字符串的结尾不添加换行符('\n')。语法为：
+
+```
+fileObject.write(string);
+```
+
+在这里，被传递的参数是要写入到已打开文件的内容。
+
+```
+# 打开一个文件
+fo = open("/tmp/foo.txt", "wb")
+fo.write( "Python is a great language.\nYeah its great!!\n");
+# 关闭打开的文件
+fo.close()
+```
 
 # 异常处理
+## try/except
+捕捉异常可以使用try/except语句。try/except语句用来检测try语句块中的错误，从而让except语句捕获异常信息并处理。如果你不想在异常发生时结束你的程序，只需在try里捕获它。语法：
+
+```
+try:
+<语句>        #运行别的代码
+except <名字>：
+<语句>        #如果在try部份引发了'name'异常
+except <名字>，<数据>:
+<语句>        #如果引发了'name'异常，获得附加的数据
+else:
+<语句>        #如果没有异常发生
+```
+
+如下面例子所示
+
+```
+try:
+   fh = open("testfile", "w")
+   fh.write("This is my test file for exception handling!!")
+except IOError:
+   print "Error: can\'t find file or read data"
+else:
+   print "Written content in the file successfully"
+   fh.close()
+```
+
+## try-finally
+try-finally 语句无论是否发生异常都将执行最后的代码。语法为：
+
+```
+try:
+<语句>
+finally:
+<语句>    #退出try时总会执行
+raise
+```
+
+注意：你可以使用except语句或者finally语句，但是两者不能同时使用。else语句也不能与finally语句同时使用。例如：
+
+```
+try:
+   fh = open("testfile", "w")
+   fh.write("This is my test file for exception handling!!")
+finally:
+   print "Error: can\'t find file or read data"
+```
 
 # 类（class）
+## 创建类
+类(Class): 用来描述具有相同的属性和方法的对象的集合。它定义了该集合中每个对象所共有的属性和方法。对象是类的实例。 使用class语句来创建一个新类，class之后为类的名称并以冒号结尾，如下实例:
+
+```
+class ClassName:
+   '类的帮助信息'   #类文档字符串
+   class_suite  #类体
+```
+
+下面代码就创建了一个名为Employee的类.
+
+```
+class Employee:
+   # '所有员工的基类'
+   empCount = 0
+ 
+   def __init__(self, name, salary):
+      self.name = name
+      self.salary = salary
+      Employee.empCount += 1
+ 
+   def displayCount(self):
+     print "Total Employee %d" % Employee.empCount
+ 
+   def displayEmployee(self):
+      print "Name : ", self.name,  ", Salary: ", self.salary
+```
+
+如下代码创建Employee的实例。
+
+```
+# "创建 Employee 类的第一个对象"
+emp1 = Employee("Zara", 2000)
+# "创建 Employee 类的第二个对象"
+emp2 = Employee("Manni", 5000)
+```
+
+## 访问属性
+可以使用点(.)来访问对象的属性。使用如下类的名称访问类变量:
+
+```
+# 定义类
+class Employee:
+   # '所有员工的基类'
+   empCount = 0
+ 
+   def __init__(self, name, salary):
+      self.name = name
+      self.salary = salary
+      Employee.empCount += 1
+ 
+   def displayCount(self):
+     print "Total Employee %d" % Employee.empCount
+ 
+   def displayEmployee(self):
+      print "Name : ", self.name,  ", Salary: ", self.salary
+# "创建 Employee 类的第一个对象"
+emp1 = Employee("Zara", 2000)
+# "创建 Employee 类的第二个对象"
+emp2 = Employee("Manni", 5000)
+# 访问类成员
+emp1.displayEmployee()
+emp2.displayEmployee()
+```
+
+我们也可以对类的属性进行修改，增加，删除。
+
+```
+emp1.age = 7  # 添加一个 'age' 属性
+emp1.age = 8  # 修改 'age' 属性
+del emp1.age  # 删除 'age' 属性
+```
+
+## 类的继承
+面向对象的编程带来的主要好处之一是代码的重用，实现这种重用的方法之一是通过继承机制。继承完全可以理解成类之间的类型和子类型关系。
+
+继承语法为 **class 派生类名（基类名）：**//... 基类名写作括号里，基本类是在类定义的时候，在元组之中指明的。
+
+派生类的声明，与他们的父类类似，继承的基类列表跟在类名之后，如下所示：
+
+```
+    class SubClassName (ParentClass1[, ParentClass2, ...]):
+               'Optional class documentation string'
+               class_suite
+```
+
+如下继承的例子。
+
+```
+class Parent:        # 定义父类
+   parentAttr = 100
+   def __init__(self):
+      print "调用父类构造函数"
+ 
+   def parentMethod(self):
+      print '调用父类方法'
+ 
+   def setAttr(self, attr):
+      Parent.parentAttr = attr
+ 
+   def getAttr(self):
+      print "父类属性 :", Parent.parentAttr
+ 
+class Child(Parent): # 定义子类
+   def __init__(self):
+      print "调用子类构造方法"
+ 
+   def childMethod(self):
+      print '调用子类方法 child method'
+ 
+c = Child()          # 实例化子类
+c.childMethod()      # 调用子类的方法
+c.parentMethod()     # 调用父类方法
+c.setAttr(200)       # 再次调用父类的方法
+c.getAttr()          # 再次调用父类的方法
+```
+
+## 方法重写
+如果你的父类方法的功能不能满足你的需求，你可以在子类重写你父类的方法：
+
+```
+class Parent:        # 定义父类
+   def myMethod(self):
+      print '调用父类方法'
+ 
+class Child(Parent): # 定义子类
+   def myMethod(self):
+      print '调用子类方法'
+ 
+c = Child()          # 子类实例
+c.myMethod()         # 子类调用重写方法
+```
