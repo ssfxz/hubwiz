@@ -124,3 +124,166 @@ function f( x, y ) {
 ```
 
 ### 属性名表达式
+ES6允许字面量定义对象时，用表达式作为对象的属性名，即把表达式放在方括号内，表达式还可以用于定义方法名
+
+```
+let propKey = 'foo';
+let obj = {
+  [propKey]: true,
+  ['a'+'bc']: 123
+};
+['h'+'ello']() {
+  return 'hi';
+}
+```
+
+### Object.is()
+用来比较两个值是否严格相等。它与严格比较运算符（===）的行为基本一致，不同之处只有两个：一是+0不等于-0，二是NaN等于自身。
+
+### Object.assign()
+用来将源对象（source）的所有可枚举属性，复制到目标对象（target）。它至少需要两个对象作为参数，第一个参数是目标对象，后面的参数都是源对象
+
+```
+var target = { a: 1 };
+var source1 = { b: 2 };
+var source2 = { c: 3 };
+
+Object.assign(target, source1, source2);
+target // {a:1, b:2, c:3}
+```
+如果目标对象与源对象有**同名属性**，或多个源对象有同名属性，则后面的属性会覆盖前面的属性
+
+### proto属性
+用来读取或设置当前对象的prototype对象
+```
+// es6的写法
+var obj = {
+  __proto__: someOtherObj,
+  method: function() { ... }
+}
+
+// es5的写法
+var obj = Object.create(someOtherObj);
+obj.method = function() { ... }
+```
+
+### Symbol类型
+ES6引入了一种新的原始数据类型Symbol，表示独一无二的ID。凡是属性名属于Symbol类型，就都是独一无二的，可以保证不会与其他属性名产生冲突。
+```let s = Symbol();```
+
+### Proxy
+Proxy 内置的一个代理工具，使用他可以在对象处理上加一层屏障：
+S6原生提供Proxy构造函数，用来生成Proxy实例。
+```var proxy = new Proxy(target, handler)```
+
+## 函数
+### 默认参数
+```
+function sayHello2(name='hubwiz'){
+    document.write(`Hello ${name}`);
+}
+```
+
+### rest参数
+rest参数（形式为“...变量名”）可以称为不定参数，用于获取函数的多余参数，这样就不需要使用arguments对象了。
+```
+function add(...values) {
+   let sum = 0;
+   for (var val of values) {
+      sum += val;
+   }
+   return sum;
+}
+add(1, 2, 3) // 6
+```
+
+### 扩展运算符
+扩展运算符（spread）是三个点（...）。它好比rest参数的逆运算，将一个数组转为用逗号分隔的参数序列。该运算符主要用于函数调用。
+```
+var people=['张三','李四','王五'];
+
+//sayHello函数本来接收三个单独的参数people1，people2和people3
+function sayHello(people1,people2,people3){
+    document.write(`Hello ${people1},${people2},${people3}`);
+}
+
+//但是我们将一个数组以拓展参数的形式传递，它能很好地映射到每个单独的参数
+sayHello(...people);   //输出：Hello 张三,李四,王五 
+
+//而在以前，如果需要传递数组当参数，我们需要使用函数的apply方法
+sayHello.apply(null,people);   //输出：Hello 张三,李四,王五 
+```
+
+### 箭头函数
+箭头函数是使用=>语法的函数简写形式，箭头函数和其上下文中的代码共享同一个具有词法作用域的this
+
+### 函数绑定
+函数绑定运算符是并排的两个双引号（::），双引号左边是一个对象，右边是一个函数。该运算符会自动将左边的对象，作为上下文环境（即this对象），绑定到右边的函数上面。
+
+```
+foo::bar;
+// 等同于
+bar.call(foo);
+ 
+foo::bar(...arguments);
+i// 等同于
+bar.apply(foo, arguments);
+```
+
+### 尾调用优化
+是指某个函数的最后一步是调用另一个函数。
+
+```
+function f(x){
+  return g(x);
+}
+```
+由于调用g之后，函数f就结束了，所以执行到最后一步，完全可以删除 f(x) 的调用帧，只保留 g(3) 的调用帧。
+
+“尾调用优化”（Tail call optimization），即只保留内层函数的调用帧，这样可以节省内存。
+
+## Set
+数据结构Set类似于数组，但是成员的值都是唯一的，没有重复的值
+
+### Set实例的属性
+* Set.prototype.constructor：构造函数，默认就是Set函数。
+* Set.prototype.size：返回Set实例的成员总数。
+
+### 操作方法
+* add(value)：添加某个值，返回Set结构本身。
+* delete(value)：删除某个值，返回一个布尔值，表示删除是否成功。
+* has(value)：返回一个布尔值，表示该值是否为Set的成员。
+* clear()：清除所有成员，没有返回值。
+
+### 遍历方法
+* keys()：返回一个键名的遍历器
+* values()：返回一个键值的遍历器
+* entries()：返回一个键值对的遍历器
+* forEach()：使用回调函数遍历每个成员
+
+由于Set结构没有键名，只有键值（或者说键名和键值是同一个值），所以key方法和value方法的行为完全一致。
+
+### WeakSet
+WeakSet和Set一样都不存储重复的元素，但有一些不同点 。
+WeakSet的成员只能是对象，而不能是其他类型的值。
+
+## Map
+Map 是一个“超对象”，其 key 除了可以是 String 类型之外，还可以为其他类型（如：对象）
+### 基本用法
+* size：返回成员总数。
+* set(key, value)：设置一个键值对。
+* get(key)：读取一个键。
+* has(key)：返回一个布尔值，表示某个键是否在Map数据结构中。
+* delete(key)：删除某个键。
+* clear()：清除所有成员。
+* keys()：返回键名的遍历器。
+* values()：返回键值的遍历器。
+* entries()：返回所有成员的遍历器。
+
+### WeakMap
+WeakMap结构与Map结构基本类似，唯一的区别是它只接受对象作为键名（null除外），不接受原始类型的值作为键名，而且键名所指向的对象，不计入垃圾回收机制。
+
+## Iterator
+遍历器（Iterator）就是统一的接口机制，来处理所有不同的数据结构。
+
+Iterator的作用有三个：一是为各种数据结构，提供一个统一的、简便的访问接口；二是使得数据结构的成员能够按某种次序排列；三是ES6创造了一种新的遍历命令for...of循环，Iterator接口主要供for...of消费
